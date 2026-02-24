@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Test Atom Feed</title>
+  <link href="https://example.com/atom" />
+  <updated>2026-02-17T12:00:00Z</updated>
+  <entry>
+    <title>Cybernetics and Organizational Design</title>
+    <link href="https://example.com/cybernetics-org-design" />
+    <id>urn:uuid:1234-5678</id>
+    <updated>2026-02-17T12:00:00Z</updated>
+    <author><name>Atom Author</name></author>
+    <summary>Exploring how cybernetics informs institutional design and governance patterns in modern organizations.</summary>
+  </entry>
+</feed>

@@ -7,10 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-02-24
+
 ### Added
-- LOGOS Sprint: Initial repo creation and documentation scaffolding
-- Feed aggregation architecture design (docs/adr/001)
-- Curation philosophy documentation (docs/adr/002)
+- Full implementation of feed aggregation pipeline (src/aggregator.py)
+- Bibliography loading, validation, and tag extraction (src/bibliographies.py)
+- OPML parsing, RSS/Atom feed fetching, and deduplication (src/feeds.py)
+- TF-IDF keyword matching and relevance scoring (src/matcher.py)
+- Configuration management with YAML loading (src/config.py)
+- 4 curated bibliography collections (17 entries): systems-thinking, creative-practice, institutional-design, ai-human-collaboration
+- OPML feed subscription file with 13 curated feeds across 4 collection groups
+- Scoring configuration (config/scoring.yaml)
+- 67 tests across 5 test modules with full fixture suite
+- CI workflow with ruff linting, pytest, and bibliography validation
+- Weekly feed aggregation scheduled workflow (Monday 06:00 UTC)
+- CLI: `python -m src.aggregator [--dry-run]` and `python -m src.bibliographies --validate`
+
+### Changed
+- seed.yaml: implementation_status SKELETON → CANDIDATE
+- Replaced minimal CI with full CI (ruff + pytest + bibliography validation)
 
 ## [0.1.0] - 2026-02-17
 

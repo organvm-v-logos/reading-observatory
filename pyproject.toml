@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reading-observatory"
+version = "0.2.0"
+description = "Curated reading lists, bibliography management, and RSS aggregation for ORGAN-V"
+requires-python = ">=3.10"
+dependencies = ["feedparser>=6.0", "pyyaml>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "ruff>=0.4.0"]
+
+[project.scripts]
+observatory-validate = "src.bibliographies:validate_main"
+observatory-aggregate = "src.aggregator:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]

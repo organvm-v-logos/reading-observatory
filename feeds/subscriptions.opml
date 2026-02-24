@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>reading-observatory subscriptions</title>
+    <dateCreated>2026-02-24</dateCreated>
+    <ownerName>ORGAN-V: Logos</ownerName>
+  </head>
+  <body>
+    <outline text="systems-thinking" title="systems-thinking">
+      <outline type="rss" text="Ribbonfarm" title="Ribbonfarm"
+        xmlUrl="https://www.ribbonfarm.com/feed/"
+        htmlUrl="https://www.ribbonfarm.com/" />
+      <outline type="rss" text="The Prepared" title="The Prepared"
+        xmlUrl="https://theprepared.org/feed"
+        htmlUrl="https://theprepared.org/" />
+      <outline type="rss" text="Santa Fe Institute Blog" title="Santa Fe Institute Blog"
+        xmlUrl="https://www.santafe.edu/news-center/news/rss"
+        htmlUrl="https://www.santafe.edu/news-center/news" />
+      <outline type="rss" text="Thinking in Systems Blog" title="Thinking in Systems Blog"
+        xmlUrl="https://donellameadows.org/feed/"
+        htmlUrl="https://donellameadows.org/" />
+    </outline>
+    <outline text="creative-practice" title="creative-practice">
+      <outline type="rss" text="Processing Foundation Blog" title="Processing Foundation Blog"
+        xmlUrl="https://processingfoundation.org/feed"
+        htmlUrl="https://processingfoundation.org/" />
+      <outline type="rss" text="Creative Applications Network" title="Creative Applications Network"
+        xmlUrl="https://www.creativeapplications.net/feed/"
+        htmlUrl="https://www.creativeapplications.net/" />
+      <outline type="rss" text="CDM (Create Digital Music)" title="CDM (Create Digital Music)"
+        xmlUrl="https://cdm.link/feed/"
+        htmlUrl="https://cdm.link/" />
+    </outline>
+    <outline text="institutional-design" title="institutional-design">
+      <outline type="rss" text="Dark Matter Labs" title="Dark Matter Labs"
+        xmlUrl="https://provocations.darkmatterlabs.org/feed"
+        htmlUrl="https://provocations.darkmatterlabs.org/" />
+      <outline type="rss" text="P2P Foundation Blog" title="P2P Foundation Blog"
+        xmlUrl="https://blog.p2pfoundation.net/feed"
+        htmlUrl="https://blog.p2pfoundation.net/" />
+      <outline type="rss" text="Nesta" title="Nesta"
+        xmlUrl="https://www.nesta.org.uk/feed/"
+        htmlUrl="https://www.nesta.org.uk/" />
+    </outline>
+    <outline text="ai-human-collaboration" title="ai-human-collaboration">
+      <outline type="rss" text="Simon Willison" title="Simon Willison"
+        xmlUrl="https://simonwillison.net/atom/everything/"
+        htmlUrl="https://simonwillison.net/" />
+      <outline type="rss" text="One Useful Thing (Ethan Mollick)" title="One Useful Thing (Ethan Mollick)"
+        xmlUrl="https://www.oneusefulthing.org/feed"
+        htmlUrl="https://www.oneusefulthing.org/" />
+      <outline type="rss" text="AI Snake Oil" title="AI Snake Oil"
+        xmlUrl="https://www.aisnakeoil.com/feed"
+        htmlUrl="https://www.aisnakeoil.com/" />
+    </outline>
+  </body>
+</opml>

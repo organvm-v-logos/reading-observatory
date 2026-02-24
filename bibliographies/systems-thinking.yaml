@@ -1,0 +1,82 @@
+- title: "Thinking in Systems: A Primer"
+  author: "Donella H. Meadows"
+  year: 2008
+  url: "https://www.chelseagreen.com/product/thinking-in-systems/"
+  relevance: >
+    Foundational text on feedback loops, stocks and flows, and system
+    archetypes. Directly informs the eight-organ architecture's approach
+    to loose coupling and distributed governance. Chapter 6 on leverage
+    points maps onto the orchestration layer.
+  tags:
+    - systems-thinking
+    - feedback-loops
+    - emergence
+    - governance
+  collections:
+    - systems-thinking
+    - institutional-design
+
+- title: "Brain of the Firm"
+  author: "Stafford Beer"
+  year: 1972
+  relevance: >
+    The viable system model is the closest formal antecedent to the
+    eight-organ architecture. Beer's five systems map onto organ
+    responsibilities: System 5 (policy) as ORGAN-IV, System 4
+    (intelligence) as ORGAN-V, System 1 (operations) as ORGAN-III.
+  tags:
+    - cybernetics
+    - viable-system-model
+    - organizational-design
+    - management-cybernetics
+  collections:
+    - systems-thinking
+
+- title: "An Introduction to Cybernetics"
+  author: "W. Ross Ashby"
+  year: 1956
+  relevance: >
+    Ashby's law of requisite variety is the formal basis for why the
+    eight-organ system needs multiple specialized organs rather than a
+    single monolithic architecture. The variety of the controller must
+    match the variety of the system being controlled.
+  tags:
+    - cybernetics
+    - requisite-variety
+    - control-theory
+    - information-theory
+  collections:
+    - systems-thinking
+
+- title: "Social Systems"
+  author: "Niklas Luhmann"
+  year: 1984
+  relevance: >
+    Luhmann's autopoiesis framework provides the theoretical basis for
+    treating each organ as a self-producing system that maintains its
+    own boundary while coupling structurally with adjacent organs. The
+    communication-as-fundamental-unit thesis informs the event bus design.
+  tags:
+    - autopoiesis
+    - social-systems
+    - communication-theory
+    - self-reference
+  collections:
+    - systems-thinking
+
+- title: "Small Arcs of Larger Circles"
+  author: "Nora Bateson"
+  year: 2016
+  relevance: >
+    Bateson's concept of warm data and symmathesy (mutual learning in
+    living systems) challenges the mechanistic tendency in systems
+    thinking. Provides a corrective lens for the observatory's own
+    curation philosophy: the system must remain sensitive to what it
+    cannot yet categorize.
+  tags:
+    - warm-data
+    - symmathesy
+    - complexity
+    - ecology-of-mind
+  collections:
+    - systems-thinking

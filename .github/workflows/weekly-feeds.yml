@@ -1,0 +1,44 @@
+name: Weekly Feed Aggregation
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Monday 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Checkout public-process for essays-index
+        uses: actions/checkout@v4
+        with:
+          repository: organvm-v-logos/public-process
+          path: public-process
+          sparse-checkout: data/essays-index.json
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Run feed aggregation
+        run: |
+          python -m src.aggregator \
+            --essays-index public-process/data/essays-index.json
+
+      - name: Commit updated feeds
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add feeds/seen.json feeds/surfaced.json feeds/archive/
+          git diff --staged --quiet || git commit -m "chore: update weekly feed aggregation $(date -u +%Y-%m-%d)"
+          git push

@@ -1,0 +1,14 @@
+# Scoring configuration for reading-observatory feed matching
+# See docs/adr/001-initial-architecture.md for rationale
+
+# Minimum relevance score (0.0–1.0) for a feed item to be surfaced
+min_score: 0.3
+
+# Days before an unacted surfaced item is archived (ADR-002: 30-day expiry)
+expiry_days: 30
+
+# Maximum number of items in surfaced.json at any time
+max_surfaced: 25
+
+# Timeout in seconds for fetching a single feed
+fetch_timeout: 10

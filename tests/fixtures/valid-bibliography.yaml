@@ -1,0 +1,25 @@
+- title: "Thinking in Systems: A Primer"
+  author: "Donella H. Meadows"
+  year: 2008
+  relevance: >
+    Foundational text on feedback loops, stocks and flows, and system
+    archetypes. Directly informs the eight-organ architecture's approach
+    to loose coupling and distributed governance.
+  tags:
+    - systems-thinking
+    - feedback-loops
+  collections:
+    - systems-thinking
+
+- title: "Brain of the Firm"
+  author: "Stafford Beer"
+  year: 1972
+  relevance: >
+    The viable system model is the closest formal antecedent to the
+    eight-organ architecture. Beer's five systems map onto organ
+    responsibilities in direct and illuminating ways.
+  tags:
+    - cybernetics
+    - viable-system-model
+  collections:
+    - systems-thinking

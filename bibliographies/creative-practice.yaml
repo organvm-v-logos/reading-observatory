@@ -1,0 +1,67 @@
+- title: "A Year with Swollen Appendices"
+  author: "Brian Eno"
+  year: 1996
+  relevance: >
+    Eno's diary reveals the working practice behind generative music and
+    oblique strategies. His distinction between architect and gardener
+    modes of creation directly informs ORGAN-II's approach to generative
+    art systems: set up conditions rather than specify outcomes.
+  tags:
+    - generative-art
+    - creative-process
+    - constraints
+    - oblique-strategies
+  collections:
+    - creative-practice
+
+- title: "A Pattern Language"
+  author: "Christopher Alexander"
+  year: 1977
+  relevance: >
+    Alexander's patterns are the original design patterns — not the
+    software kind, but the spatial-experiential kind. The idea that
+    recurring solutions can be named, documented, and composed is the
+    template for how the eight-organ system documents its own patterns
+    and conventions.
+  tags:
+    - pattern-language
+    - design-patterns
+    - architecture
+    - composition
+  collections:
+    - creative-practice
+    - institutional-design
+
+- title: "A Power Stronger Than Itself"
+  author: "George E. Lewis"
+  year: 2008
+  relevance: >
+    Lewis's history of the AACM (Association for the Advancement of
+    Creative Musicians) documents how a creative community built lasting
+    institutional structures without sacrificing artistic autonomy. The
+    AACM's balance of individual voice and collective infrastructure is
+    a direct model for the organ system's governance design.
+  tags:
+    - creative-community
+    - institutional-design
+    - improvisation
+    - collective-practice
+  collections:
+    - creative-practice
+    - institutional-design
+
+- title: "The Laws of Simplicity"
+  author: "John Maeda"
+  year: 2006
+  relevance: >
+    Maeda's ten laws provide a framework for evaluating when complexity
+    in the organ system is justified and when it should be reduced. Law
+    10 (simplicity is about subtracting the obvious and adding the
+    meaningful) is the design criterion for every new feature decision.
+  tags:
+    - simplicity
+    - design-philosophy
+    - reduction
+    - user-experience
+  collections:
+    - creative-practice

@@ -1,0 +1,67 @@
+- title: "Governing the Commons"
+  author: "Elinor Ostrom"
+  year: 1990
+  relevance: >
+    Ostrom's design principles for long-enduring commons institutions
+    directly inform the organ system's governance layer. Principle 2
+    (congruence between rules and local conditions) justifies per-organ
+    configuration. Principle 7 (minimal recognition of rights to
+    organize) supports the autonomous organ model.
+  tags:
+    - commons
+    - governance
+    - institutional-design
+    - collective-action
+  collections:
+    - institutional-design
+
+- title: "The Structuring of Organizations"
+  author: "Henry Mintzberg"
+  year: 1979
+  relevance: >
+    Mintzberg's five organizational configurations (simple structure,
+    machine bureaucracy, professional bureaucracy, divisionalized form,
+    adhocracy) provide a vocabulary for describing what the organ system
+    is and what it deliberately avoids. The system is closest to
+    adhocracy with elements of divisionalized form.
+  tags:
+    - organizational-theory
+    - management
+    - coordination-mechanisms
+    - organizational-design
+  collections:
+    - institutional-design
+
+- title: "Emergent Strategy"
+  author: "adrienne maree brown"
+  year: 2017
+  relevance: >
+    Brown's principles of emergent strategy (small is good, small is
+    all; trust the people; move at the speed of trust) provide the
+    ethical framework for the organ system's growth model. The promotion
+    pipeline's deliberate pace mirrors the principle that growth should
+    be fractal and adaptive, not forced.
+  tags:
+    - emergent-strategy
+    - facilitation
+    - adaptive-systems
+    - social-justice
+  collections:
+    - institutional-design
+
+- title: "Reinventing Organizations"
+  author: "Frederic Laloux"
+  year: 2014
+  relevance: >
+    Laloux's taxonomy of organizational paradigms (Red through Teal)
+    gives language for the organ system's aspiration: self-management,
+    wholeness, and evolutionary purpose. The system's read-many-write-one
+    pattern and distributed governance align with Teal organization
+    principles.
+  tags:
+    - teal-organizations
+    - self-management
+    - evolutionary-purpose
+    - organizational-paradigms
+  collections:
+    - institutional-design

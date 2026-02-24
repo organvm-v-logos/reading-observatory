@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>Test Subscriptions</title>
+  </head>
+  <body>
+    <outline text="systems-thinking" title="systems-thinking">
+      <outline type="rss" text="Test Feed A" title="Test Feed A"
+        xmlUrl="https://example.com/feed-a.xml"
+        htmlUrl="https://example.com/a" />
+      <outline type="rss" text="Test Feed B" title="Test Feed B"
+        xmlUrl="https://example.com/feed-b.xml"
+        htmlUrl="https://example.com/b" />
+    </outline>
+    <outline text="creative-practice" title="creative-practice">
+      <outline type="rss" text="Test Feed C" title="Test Feed C"
+        xmlUrl="https://example.com/feed-c.xml"
+        htmlUrl="https://example.com/c" />
+    </outline>
+  </body>
+</opml>

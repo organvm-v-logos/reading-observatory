@@ -1,0 +1,22 @@
+- title: "Missing Fields Book"
+  author: "Someone"
+  year: 2020
+
+- title: "Bad Collections"
+  author: "Someone Else"
+  year: 2021
+  relevance: "Too short"
+  tags: []
+  collections:
+    - nonexistent-collection
+
+- title: 12345
+  author: "Valid Author"
+  year: "not-a-number"
+  relevance: >
+    This relevance field is long enough to pass the minimum character
+    count but the other fields have type errors that should be caught.
+  tags:
+    - valid-tag
+  collections:
+    - systems-thinking

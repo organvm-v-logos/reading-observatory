@@ -1,4 +1,4 @@
-[![ORGAN-V: Logos](https://img.shields.io/badge/ORGAN--V-Logos-0d47a1?style=flat-square)](https://github.com/organvm-v-logos) [![CI](https://github.com/organvm-v-logos/reading-observatory/actions/workflows/ci.yml/badge.svg)](https://github.com/organvm-v-logos/reading-observatory/actions/workflows/ci.yml) [![Tier: Standard](https://img.shields.io/badge/tier-standard-4fc3f7?style=flat-square)](#how-it-fits-the-system) [![Status: Design Document](https://img.shields.io/badge/status-design_document-yellow?style=flat-square)]()
+[![ORGAN-V: Logos](https://img.shields.io/badge/ORGAN--V-Logos-0d47a1?style=flat-square)](https://github.com/organvm-v-logos) [![CI](https://github.com/organvm-v-logos/reading-observatory/actions/workflows/ci.yml/badge.svg)](https://github.com/organvm-v-logos/reading-observatory/actions/workflows/ci.yml) [![Tier: Standard](https://img.shields.io/badge/tier-standard-4fc3f7?style=flat-square)](#how-it-fits-the-system) [![Status: Candidate](https://img.shields.io/badge/status-candidate-brightgreen?style=flat-square)]()
 
 # reading-observatory
 
@@ -6,31 +6,38 @@ _Curated reading lists, bibliography management, and RSS aggregation for the ORG
 
 ---
 
-> **Status: Design Document**
+> **Status: CANDIDATE**
 >
-> This README describes the **planned architecture** for reading-observatory.
-> No source code has been implemented yet. The repository currently contains
-> only this design document, a seed.yaml contract, ADRs, and CI scaffolding.
-> See [Current State](#current-state) below for what actually exists.
+> reading-observatory is fully implemented with 4 source modules, 67 tests,
+> 4 curated bibliography collections (17 entries), 13 RSS feed subscriptions,
+> and a weekly aggregation pipeline. Both produce edges (`curated-reading-lists`
+> and `relevant-articles`) are fulfilled.
 
 ---
 
 ## Current State
 
-As of 2026-02-23, this repository contains:
+As of 2026-02-24, this repository contains:
 
-- `README.md` — This design document (you are reading it)
-- `seed.yaml` — Automation contract declaring planned data flows (`implementation_status: SKELETON`)
+- `src/` — 4 Python modules: config, bibliographies, feeds, matcher, aggregator
+- `tests/` — 67 tests across 5 test modules with fixtures
+- `bibliographies/` — 4 curated YAML collections (17 entries)
+- `feeds/subscriptions.opml` — 13 RSS/Atom feed subscriptions
+- `feeds/seen.json`, `feeds/surfaced.json` — Pipeline state files
+- `config/scoring.yaml` — Scoring parameters
+- `.github/workflows/ci.yml` — Full CI (ruff + pytest + bibliography validation)
+- `.github/workflows/weekly-feeds.yml` — Monday 06:00 UTC cron aggregation
+- `seed.yaml` — `implementation_status: CANDIDATE`
 - `docs/adr/` — Architecture decision records
-- `.github/workflows/ci.yml` — Minimal CI (YAML lint only)
-- `LICENSE` — MIT
-- `CHANGELOG.md` — Changelog (no releases yet)
+- `README.md`, `CHANGELOG.md`, `LICENSE`
 
-**No Python modules exist.** The `feed-aggregator.py` script, `bibliographies/` YAML files, and `feeds/` directory described below are planned but not yet created. The `produces` edges declared in `seed.yaml` (`curated-reading-lists`, `relevant-articles`) are not yet produced.
+Both produce edges are fulfilled:
+- `curated-reading-lists` → `bibliographies/*.yaml`
+- `relevant-articles` → `feeds/surfaced.json`
 
 ---
 
-## Planned Architecture
+## Architecture
 
 ### Overview
 
@@ -89,32 +96,37 @@ The OPML file is organized into four outline groups matching the four collection
 
 ## Architecture
 
-The core of reading-observatory is a single Python script, `feed-aggregator.py`, which implements the fetch-deduplicate-extract-match-score-output pipeline described above. The script is designed to be stateless between runs except for the `feeds/seen.json` file that tracks already-processed URLs. It reads the OPML subscription list, fetches feeds using the `feedparser` library, performs keyword extraction and matching using simple TF-IDF scoring (no external ML models or APIs), and writes results to JSON.
+The core of reading-observatory is a modular Python package in `src/` implementing the fetch-deduplicate-extract-match-score-output pipeline. The pipeline is stateless between runs except for `feeds/seen.json` (tracks already-processed URLs) and `feeds/surfaced.json` (items above the scoring threshold). It reads the OPML subscription list, fetches feeds using `feedparser`, performs keyword matching using simple TF-IDF scoring (no external ML models or APIs per ADR-001), and writes results to JSON.
 
 ```
 reading-observatory/
-  README.md
-  LICENSE
-  seed.yaml
-  CHANGELOG.md
-  feed-aggregator.py          # Main aggregation pipeline
+  pyproject.toml              # Package definition (feedparser + pyyaml)
+  src/
+    config.py                 # ScoringConfig, PathsConfig, ObservatoryConfig
+    bibliographies.py         # Load, validate, extract tags from YAML
+    feeds.py                  # OPML parse, fetch feeds, deduplicate
+    matcher.py                # Vocabulary building, TF-IDF scoring
+    aggregator.py             # Pipeline orchestration + CLI
+  tests/                      # 67 tests across 5 modules
+    fixtures/                 # YAML, XML, JSON test fixtures
+  config/
+    scoring.yaml              # min_score, expiry_days, max_surfaced
   feeds/
-    subscriptions.opml        # Curated feed list (OPML format)
+    subscriptions.opml        # 13 curated feeds in 4 groups (OPML)
     seen.json                 # URL hashes of already-processed items
     surfaced.json             # Items that passed keyword matching
     archive/                  # Expired surfaced items (>30 days)
   bibliographies/
-    systems-thinking.yaml     # Curated bibliography
-    creative-practice.yaml    # Curated bibliography
-    institutional-design.yaml # Curated bibliography
-    ai-human-collaboration.yaml # Curated bibliography
-  docs/
-    adr/
-      001-initial-architecture.md
-      002-curation-philosophy.md
-  .github/
-    workflows/
-      ci.yml                  # Minimal CI validation
+    systems-thinking.yaml     # 5 entries
+    creative-practice.yaml    # 4 entries
+    institutional-design.yaml # 4 entries
+    ai-human-collaboration.yaml # 4 entries
+  docs/adr/
+    001-initial-architecture.md
+    002-curation-philosophy.md
+  .github/workflows/
+    ci.yml                    # ruff + pytest + bibliography validation
+    weekly-feeds.yml          # Monday 06:00 UTC cron
 ```
 
 The architecture is deliberately simple. There is no database, no web server, no user interface. The bibliographies are YAML files edited by hand. The feed list is an OPML file edited by hand. The aggregator is a script that runs on a schedule. Everything is version-controlled and reviewable through normal git workflows.
@@ -181,23 +193,43 @@ reading-observatory does not exist in isolation. It is one input to the broader 
 ```bash
 git clone https://github.com/organvm-v-logos/reading-observatory.git
 cd reading-observatory
-pip install feedparser pyyaml
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
 ```
 
-No database setup is required. No environment variables need to be configured. The repository is self-contained: all state lives in flat files (YAML, JSON, OPML) that are version-controlled alongside the code. This means you can clone the repository and have a fully functional local copy of the entire observatory, including all bibliographies, feed subscriptions, and historical surfaced items.
+No database setup is required. No environment variables need to be configured. The repository is self-contained: all state lives in flat files (YAML, JSON, OPML) that are version-controlled alongside the code.
 
 ### Running the Feed Aggregator
 
 ```bash
-python feed-aggregator.py
+python -m src.aggregator
 ```
 
-The script reads `feeds/subscriptions.opml`, fetches all subscribed feeds, applies keyword matching, and writes results to `feeds/surfaced.json`. Run it manually during development or let the scheduled workflow handle it in production. The first run on a fresh clone will treat all feed items as new, since `feeds/seen.json` starts empty. Subsequent runs will only process items not already in the seen list.
+The pipeline reads `feeds/subscriptions.opml`, fetches all subscribed feeds, applies keyword matching against the vocabulary built from bibliography tags and essay tags, and writes results to `feeds/surfaced.json`. Run it manually during development or let the scheduled workflow handle it in production.
 
-To run a dry run that fetches and matches but does not write to `surfaced.json`, use:
+To run a dry run that loads vocabularies without fetching feeds:
 
 ```bash
-python feed-aggregator.py --dry-run
+python -m src.aggregator --dry-run
+```
+
+To point at a specific essays-index.json:
+
+```bash
+python -m src.aggregator --essays-index ../public-process/data/essays-index.json
+```
+
+### Running Tests
+
+```bash
+pytest tests/ -v
+ruff check src/ tests/
+```
+
+### Validating Bibliographies
+
+```bash
+python -m src.bibliographies --validate bibliographies/
 ```
 
 ### Adding a New Feed

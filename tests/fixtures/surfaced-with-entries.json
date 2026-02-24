@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Old Article About Governance",
+    "url": "https://example.com/old-governance",
+    "summary": "An old article about governance patterns.",
+    "relevance_score": 0.45,
+    "matched_terms": ["governance"],
+    "matched_collections": ["institutional-design"],
+    "surfaced_date": "2026-01-15"
+  },
+  {
+    "title": "Recent Systems Thinking Post",
+    "url": "https://example.com/recent-systems",
+    "summary": "A recent post about systems thinking and feedback loops.",
+    "relevance_score": 0.52,
+    "matched_terms": ["systems", "thinking", "feedback"],
+    "matched_collections": ["systems-thinking"],
+    "surfaced_date": "2026-02-20"
+  }
+]

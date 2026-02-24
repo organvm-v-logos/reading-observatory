@@ -1,0 +1,67 @@
+- title: "Co-Intelligence: Living and Working with AI"
+  author: "Ethan Mollick"
+  year: 2024
+  relevance: >
+    Mollick's framework for AI as co-worker rather than tool directly
+    informs the organ system's AI-conductor model. His taxonomy of AI
+    collaboration modes (delegator, evaluator, co-creator) maps onto the
+    system's human-directs-AI-generates-human-reviews workflow.
+  tags:
+    - ai-collaboration
+    - co-intelligence
+    - human-in-the-loop
+    - ai-augmentation
+  collections:
+    - ai-human-collaboration
+
+- title: "Atlas of AI"
+  author: "Kate Crawford"
+  year: 2021
+  relevance: >
+    Crawford's materialist analysis of AI infrastructure provides
+    essential context for the organ system's resource accounting. Her
+    mapping of extraction (data, labor, minerals) to AI capability
+    grounds the system's choice to measure effort in LLM tokens and to
+    maintain transparency about AI-generated content.
+  tags:
+    - ai-ethics
+    - political-economy
+    - infrastructure
+    - extraction
+  collections:
+    - ai-human-collaboration
+
+- title: "Design Justice"
+  author: "Sasha Costanza-Chock"
+  year: 2020
+  relevance: >
+    Costanza-Chock's design justice principles challenge the organ system
+    to consider who benefits and who is marginalized by its design
+    decisions. The principle that design should center those most affected
+    informs the system's commitment to building-in-public transparency
+    and community governance in ORGAN-VI.
+  tags:
+    - design-justice
+    - participatory-design
+    - equity
+    - community-governance
+  collections:
+    - ai-human-collaboration
+    - institutional-design
+
+- title: "On the Dangers of Stochastic Parrots"
+  author: "Emily Bender, Timnit Gebru, Angelina McMillan-Major, Shmargaret Shmitchell"
+  year: 2021
+  relevance: >
+    The stochastic parrots paper's critique of large language models
+    without adequate documentation and accountability directly informs
+    the organ system's insistence on transparency about AI-generated
+    content, attribution practices, and the human-review requirement
+    in the curation philosophy (ADR-002).
+  tags:
+    - ai-ethics
+    - language-models
+    - accountability
+    - documentation
+  collections:
+    - ai-human-collaboration

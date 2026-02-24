@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Test Feed</title>
+    <link>https://example.com</link>
+    <description>A test RSS feed</description>
+    <item>
+      <title>Systems Thinking in Software Architecture</title>
+      <link>https://example.com/systems-thinking-software</link>
+      <author>test@example.com (Test Author)</author>
+      <pubDate>Mon, 17 Feb 2026 08:00:00 GMT</pubDate>
+      <description>An article about applying systems thinking to feedback loops and governance in software design.</description>
+    </item>
+    <item>
+      <title>Cooking Recipes for Spring</title>
+      <link>https://example.com/cooking-spring</link>
+      <pubDate>Sun, 16 Feb 2026 10:00:00 GMT</pubDate>
+      <description>A collection of seasonal recipes for the spring months.</description>
+    </item>
+  </channel>
+</rss>
