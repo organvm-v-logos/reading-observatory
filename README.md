@@ -1,4 +1,4 @@
-[![ORGAN-V: Logos](https://img.shields.io/badge/ORGAN--V-Logos-0d47a1?style=flat-square)](https://github.com/organvm-v-logos) [![CI](https://github.com/organvm-v-logos/reading-observatory/actions/workflows/ci.yml/badge.svg)](https://github.com/organvm-v-logos/reading-observatory/actions/workflows/ci.yml) [![Tier: Standard](https://img.shields.io/badge/tier-standard-4fc3f7?style=flat-square)](#how-it-fits-the-system)
+[![ORGAN-V: Logos](https://img.shields.io/badge/ORGAN--V-Logos-0d47a1?style=flat-square)](https://github.com/organvm-v-logos) [![CI](https://github.com/organvm-v-logos/reading-observatory/actions/workflows/ci.yml/badge.svg)](https://github.com/organvm-v-logos/reading-observatory/actions/workflows/ci.yml) [![Tier: Standard](https://img.shields.io/badge/tier-standard-4fc3f7?style=flat-square)](#how-it-fits-the-system) [![Status: Design Document](https://img.shields.io/badge/status-design_document-yellow?style=flat-square)]()
 
 # reading-observatory
 
@@ -6,7 +6,33 @@ _Curated reading lists, bibliography management, and RSS aggregation for the ORG
 
 ---
 
-## Overview
+> **Status: Design Document**
+>
+> This README describes the **planned architecture** for reading-observatory.
+> No source code has been implemented yet. The repository currently contains
+> only this design document, a seed.yaml contract, ADRs, and CI scaffolding.
+> See [Current State](#current-state) below for what actually exists.
+
+---
+
+## Current State
+
+As of 2026-02-23, this repository contains:
+
+- `README.md` — This design document (you are reading it)
+- `seed.yaml` — Automation contract declaring planned data flows (`implementation_status: SKELETON`)
+- `docs/adr/` — Architecture decision records
+- `.github/workflows/ci.yml` — Minimal CI (YAML lint only)
+- `LICENSE` — MIT
+- `CHANGELOG.md` — Changelog (no releases yet)
+
+**No Python modules exist.** The `feed-aggregator.py` script, `bibliographies/` YAML files, and `feeds/` directory described below are planned but not yet created. The `produces` edges declared in `seed.yaml` (`curated-reading-lists`, `relevant-articles`) are not yet produced.
+
+---
+
+## Planned Architecture
+
+### Overview
 
 reading-observatory is the intellectual intake system for ORGAN-V: Logos. It performs three interconnected functions: it curates bibliographies of works that inform the eight-organ system's conceptual foundations, it monitors external RSS feeds for articles and essays relevant to the system's active themes, and it surfaces discovered material as potential inputs to the essay-writing pipeline that powers the public-process discourse layer.
 
