@@ -42,3 +42,11 @@ jobs:
           git add feeds/seen.json feeds/surfaced.json feeds/archive/
           git diff --staged --quiet || git commit -m "chore: update weekly feed aggregation $(date -u +%Y-%m-%d)"
           git push
+
+      - name: Notify essay-pipeline
+        env:
+          GH_TOKEN: ${{ secrets.CROSS_ORG_DISPATCH_TOKEN }}
+        run: |
+          gh api repos/organvm-v-logos/essay-pipeline/dispatches \
+            -f event_type=feeds-updated \
+            -f client_payload='{"date":"'"$(date -u +%Y-%m-%d)"'"}'
