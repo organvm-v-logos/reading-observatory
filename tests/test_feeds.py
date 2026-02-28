@@ -1,9 +1,11 @@
 """Tests for feed parsing, fetching, and deduplication."""
 
 from pathlib import Path
+from unittest.mock import patch
 
 from src.feeds import (
     deduplicate,
+    fetch_all_feeds,
     fetch_feed,
     hash_url,
     load_seen,
@@ -125,3 +127,41 @@ class TestDeduplicate:
         seen = {}
         result = deduplicate(items, seen)
         assert len(result) == 0
+
+
+class TestFetchAllFeeds:
+    @patch("src.feeds.fetch_feed")
+    def test_groups_by_collection(self, mock_fetch):
+        mock_fetch.side_effect = lambda *args, **kwargs: [
+            {"title": "Article 1", "url": "https://example.com/1"},
+        ]
+        subscriptions = {
+            "systems-thinking": [
+                {"title": "Feed A", "xml_url": "https://example.com/feed-a.xml"},
+            ],
+            "creative-practice": [
+                {"title": "Feed B", "xml_url": "https://example.com/feed-b.xml"},
+            ],
+        }
+        result = fetch_all_feeds(subscriptions)
+        assert "systems-thinking" in result
+        assert "creative-practice" in result
+        # Items should be tagged with collection and feed_title
+        item = result["systems-thinking"][0]
+        assert item["collection"] == "systems-thinking"
+        assert item["feed_title"] == "Feed A"
+
+    def test_empty_subscriptions(self):
+        result = fetch_all_feeds({})
+        assert result == {}
+
+    @patch("src.feeds.fetch_feed")
+    def test_skips_empty_feeds(self, mock_fetch):
+        mock_fetch.return_value = []
+        subscriptions = {
+            "empty-collection": [
+                {"title": "Empty Feed", "xml_url": "https://example.com/empty.xml"},
+            ],
+        }
+        result = fetch_all_feeds(subscriptions)
+        assert "empty-collection" not in result
