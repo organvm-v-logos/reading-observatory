@@ -8,6 +8,7 @@ on:
 jobs:
   aggregate:
     runs-on: ubuntu-latest
+    continue-on-error: true
     permissions:
       contents: write
 
@@ -17,10 +18,12 @@ jobs:
 
       - name: Checkout public-process for essays-index
         uses: actions/checkout@v4
+        continue-on-error: true
         with:
           repository: organvm-v-logos/public-process
           path: public-process
           sparse-checkout: data/essays-index.json
+          token: ${{ secrets.CROSS_ORG_DISPATCH_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -32,6 +35,10 @@ jobs:
 
       - name: Run feed aggregation
         run: |
+          if [ ! -f public-process/data/essays-index.json ]; then
+            echo "::warning::public-process/data/essays-index.json missing; skipping aggregation"
+            exit 0
+          fi
           python -m src.aggregator \
             --essays-index public-process/data/essays-index.json
 
@@ -45,8 +52,12 @@ jobs:
 
       - name: Notify essay-pipeline
         env:
-          GH_TOKEN: ${{ secrets.CROSS_ORG_DISPATCH_TOKEN }}
+          GH_TOKEN: ${{ secrets.CROSS_ORG_DISPATCH_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::warning::No token available for cross-repo dispatch; skipping notification"
+            exit 0
+          fi
           gh api repos/organvm-v-logos/essay-pipeline/dispatches \
             -f event_type=feeds-updated \
             -f client_payload='{"date":"'"$(date -u +%Y-%m-%d)"'"}'
