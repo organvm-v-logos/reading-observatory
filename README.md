@@ -92,6 +92,8 @@ The aggregation pipeline runs weekly (Monday mornings, 06:00 UTC) via scheduled 
 
 Items that score below the threshold are silently discarded. Items that score above the threshold but are not acted upon within 30 days are moved to `feeds/archive/`. The pipeline is intentionally conservative: it is better to miss a relevant article than to flood the essay pipeline with noise.
 
+The surfaced-item schema is documented in [`docs/data-contract-surfaced-items.md`](docs/data-contract-surfaced-items.md) and is synchronized with `essay-pipeline`'s consumer contract.
+
 The OPML file is organized into four outline groups matching the four collections. A feed can appear in multiple groups if it publishes content relevant to more than one collection. Adding a new feed requires editing the OPML file directly and committing the change; there is no web interface or API for feed management. This is intentional. Adding a feed is a curatorial decision that should be made deliberately, not impulsively.
 
 ## Architecture

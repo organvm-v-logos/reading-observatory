@@ -14,6 +14,7 @@ CLI: python -m src.aggregator [--dry-run] [--essays-index PATH]
 
 import argparse
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -112,6 +113,56 @@ def _build_collection_tags(bibliographies: dict[str, list[dict]]) -> dict[str, s
     return result
 
 
+def _parse_item_datetime(value: str) -> datetime:
+    """Parse surfaced/published timestamps, defaulting to epoch UTC on failure."""
+    raw = str(value or "").strip()
+    if not raw:
+        return datetime(1970, 1, 1, tzinfo=timezone.utc)
+    if re.match(r"^\d{4}-\d{2}-\d{2}$", raw):
+        raw = f"{raw}T00:00:00+00:00"
+    if raw.endswith("Z"):
+        raw = f"{raw[:-1]}+00:00"
+    try:
+        parsed = datetime.fromisoformat(raw)
+    except ValueError:
+        return datetime(1970, 1, 1, tzinfo=timezone.utc)
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _merge_and_rank_surfaced(
+    existing_surfaced: list[dict],
+    newly_scored: list[dict],
+    max_surfaced: int,
+) -> list[dict]:
+    """Merge surfaced items and keep freshest/highest-signal entries."""
+    combined = []
+    seen_urls: set[str] = set()
+
+    # Prefer new entries when duplicate URLs exist.
+    for item in newly_scored + existing_surfaced:
+        url = str(item.get("url", "")).strip()
+        if not url:
+            continue
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+        combined.append(item)
+
+    combined.sort(
+        key=lambda item: (
+            _parse_item_datetime(item.get("surfaced_date")),
+            float(item.get("relevance_score", 0.0)),
+            _parse_item_datetime(item.get("published")),
+            str(item.get("title", "")),
+        ),
+        reverse=True,
+    )
+
+    return combined[:max_surfaced]
+
+
 def aggregate(config: ObservatoryConfig, dry_run: bool = False) -> dict:
     """Run the full aggregation pipeline. Returns summary dict."""
     paths = config.paths
@@ -178,9 +229,8 @@ def aggregate(config: ObservatoryConfig, dry_run: bool = False) -> dict:
     for item in scored:
         item["surfaced_date"] = today
 
-    # Merge and cap at max_surfaced
-    merged = existing_surfaced + scored
-    merged = merged[: scoring.max_surfaced]
+    # Merge and cap at max_surfaced while preferring fresh/high-signal items.
+    merged = _merge_and_rank_surfaced(existing_surfaced, scored, scoring.max_surfaced)
 
     # 10. Write outputs
     surfaced_path.parent.mkdir(parents=True, exist_ok=True)

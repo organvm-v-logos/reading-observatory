@@ -241,3 +241,68 @@ class TestAggregate:
         assert summary["items_fetched"] == 0
         assert summary["items_new"] == 0
         assert summary["items_scored"] == 0
+
+    @patch("src.aggregator.fetch_all_feeds")
+    def test_cap_prefers_fresh_new_items(self, mock_fetch, tmp_path):
+        bib_dir = tmp_path / "bibliographies"
+        bib_dir.mkdir()
+        (bib_dir / "test.yaml").write_text(
+            '- title: "Test"\n  author: "Author"\n  year: 2020\n'
+            '  relevance: "' + "A" * 50 + '"\n'
+            '  tags: ["governance"]\n  collections: ["systems-thinking"]\n'
+        )
+
+        feeds_dir = tmp_path / "feeds"
+        feeds_dir.mkdir()
+        (feeds_dir / "seen.json").write_text("{}")
+        old_item = [
+            {
+                "title": "Old Item",
+                "url": "https://example.com/old",
+                "relevance_score": 0.99,
+                "surfaced_date": "2026-01-01",
+            }
+        ]
+        (feeds_dir / "surfaced.json").write_text(json.dumps(old_item))
+        (feeds_dir / "archive").mkdir()
+
+        opml = tmp_path / "subscriptions.opml"
+        opml.write_text(
+            '<?xml version="1.0"?><opml version="2.0"><head/><body>'
+            '<outline text="systems-thinking">'
+            '<outline type="rss" title="Feed" '
+            'xmlUrl="https://example.com/feed.xml" htmlUrl="https://example.com/"/>'
+            "</outline></body></opml>"
+        )
+
+        mock_fetch.return_value = {
+            "systems-thinking": [
+                {
+                    "title": "Fresh Item",
+                    "url": "https://example.com/fresh",
+                    "summary": "Governance in systems thinking with orchestration details.",
+                    "author": "Test",
+                    "published": "2026-03-05T00:00:00+00:00",
+                    "collection": "systems-thinking",
+                    "feed_title": "Feed",
+                }
+            ]
+        }
+
+        config = ObservatoryConfig(
+            scoring=ScoringConfig(min_score=0.01, max_surfaced=1),
+            paths=PathsConfig(
+                bibliographies_dir=str(bib_dir),
+                feeds_dir=str(feeds_dir),
+                opml_path=str(opml),
+                seen_path=str(feeds_dir / "seen.json"),
+                surfaced_path=str(feeds_dir / "surfaced.json"),
+                archive_dir=str(feeds_dir / "archive"),
+                essays_index_path=str(FIXTURES / "essays-index-sample.json"),
+            ),
+        )
+
+        aggregate(config, dry_run=False)
+        surfaced = json.loads((feeds_dir / "surfaced.json").read_text())
+        assert len(surfaced) == 1
+        assert surfaced[0]["title"] == "Fresh Item"

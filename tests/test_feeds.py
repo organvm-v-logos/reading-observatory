@@ -94,6 +94,30 @@ class TestFetchFeed:
         items = fetch_feed("file:///nonexistent/path/feed.xml")
         assert items == []
 
+    @patch("src.feeds.feedparser.parse")
+    @patch("src.feeds.urllib.request.urlopen")
+    def test_fetch_feed_uses_timeout_parameter(self, mock_urlopen, mock_parse):
+        class _Resp:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+            def read(self):
+                return b"<rss><channel></channel></rss>"
+
+        class _Parsed:
+            bozo = False
+            entries = []
+
+        mock_urlopen.return_value = _Resp()
+        mock_parse.return_value = _Parsed()
+
+        items = fetch_feed("https://example.com/feed.xml", timeout=3)
+        assert items == []
+        assert mock_urlopen.call_args.kwargs["timeout"] == 3
+
 
 class TestDeduplicate:
     def test_new_items_pass_through(self):

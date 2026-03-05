@@ -6,6 +6,8 @@ and deduplicates items using URL hashing.
 
 import hashlib
 import json
+import urllib.error
+import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
@@ -75,7 +77,12 @@ def fetch_feed(xml_url: str, timeout: int = 10) -> list[dict]:
     """
     try:
         headers = {"User-Agent": "reading-observatory/0.2"}
-        parsed = feedparser.parse(xml_url, request_headers=headers)
+        req = urllib.request.Request(xml_url, headers=headers)
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            raw = resp.read()
+        parsed = feedparser.parse(raw)
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError):
+        return []
     except Exception:
         return []
 
