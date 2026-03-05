@@ -1,6 +1,7 @@
 """Tests for bibliography loading, validation, and tag extraction."""
 
 from pathlib import Path
+from unittest.mock import patch
 
 from src.bibliographies import (
     extract_tags,
@@ -8,10 +9,36 @@ from src.bibliographies import (
     load_bibliography,
     validate_all,
     validate_entry,
+    validate_main,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures"
 BIBLIOGRAPHIES = Path(__file__).parent.parent / "bibliographies"
+
+
+class TestValidateMain:
+    @patch("sys.exit")
+    def test_main_success(self, mock_exit, tmp_path):
+        bib = tmp_path / "valid.yaml"
+        bib.write_text(
+            "- title: Test\n"
+            "  author: Author\n"
+            "  year: 2020\n"
+            '  relevance: "' + ("A" * 50) + '"\n'
+            "  tags: [tag]\n"
+            "  collections: [systems-thinking]\n"
+        )
+        with patch("sys.argv", ["prog", "--validate", str(tmp_path)]):
+            validate_main()
+        mock_exit.assert_called_with(0)
+
+    @patch("sys.exit")
+    def test_main_failure(self, mock_exit, tmp_path):
+        bib = tmp_path / "invalid.yaml"
+        bib.write_text("- title: Too Short")
+        with patch("sys.argv", ["prog", "--validate", str(tmp_path)]):
+            validate_main()
+        mock_exit.assert_called_with(1)
 
 
 class TestLoadBibliography:
@@ -19,6 +46,14 @@ class TestLoadBibliography:
         entries = load_bibliography(FIXTURES / "valid-bibliography.yaml")
         assert len(entries) == 2
         assert entries[0]["title"] == "Thinking in Systems: A Primer"
+
+    def test_load_single_dict(self, tmp_path):
+        """Test loading a YAML file that is a single object, not a list."""
+        p = tmp_path / "single.yaml"
+        p.write_text("title: Single Entry\nauthor: Me")
+        entries = load_bibliography(p)
+        assert len(entries) == 1
+        assert entries[0]["title"] == "Single Entry"
 
     def test_load_empty_file(self, tmp_path):
         empty = tmp_path / "empty.yaml"
@@ -128,10 +163,12 @@ class TestLoadAllBibliographies:
 
 class TestExtractTags:
     def test_extracts_unique_tags(self):
-        bibs = {"test": [
-            {"tags": ["a", "b"]},
-            {"tags": ["b", "c"]},
-        ]}
+        bibs = {
+            "test": [
+                {"tags": ["a", "b"]},
+                {"tags": ["b", "c"]},
+            ]
+        }
         tags = extract_tags(bibs)
         assert tags == {"a", "b", "c"}
 

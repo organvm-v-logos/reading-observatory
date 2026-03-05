@@ -32,11 +32,13 @@ def parse_opml(path: str | Path) -> dict[str, list[dict]]:
         for outline in group.findall("outline"):
             xml_url = outline.get("xmlUrl", "")
             if xml_url:
-                feeds.append({
-                    "title": outline.get("title", outline.get("text", "")),
-                    "xml_url": xml_url,
-                    "html_url": outline.get("htmlUrl", ""),
-                })
+                feeds.append(
+                    {
+                        "title": outline.get("title", outline.get("text", "")),
+                        "xml_url": xml_url,
+                        "html_url": outline.get("htmlUrl", ""),
+                    }
+                )
         if feeds:
             result[collection] = feeds
     return result
@@ -96,13 +98,15 @@ def fetch_feed(xml_url: str, timeout: int = 10) -> list[dict]:
                 published = datetime(*entry.updated_parsed[:6], tzinfo=timezone.utc).isoformat()
             except (TypeError, ValueError):
                 pass
-        items.append({
-            "title": entry.get("title", ""),
-            "url": url,
-            "author": entry.get("author", ""),
-            "published": published,
-            "summary": entry.get("summary", ""),
-        })
+        items.append(
+            {
+                "title": entry.get("title", ""),
+                "url": url,
+                "author": entry.get("author", ""),
+                "published": published,
+                "summary": entry.get("summary", ""),
+            }
+        )
     return items
 
 

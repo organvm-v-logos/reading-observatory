@@ -9,12 +9,14 @@ from pathlib import Path
 
 import yaml
 
-VALID_COLLECTIONS = frozenset([
-    "systems-thinking",
-    "creative-practice",
-    "institutional-design",
-    "ai-human-collaboration",
-])
+VALID_COLLECTIONS = frozenset(
+    [
+        "systems-thinking",
+        "creative-practice",
+        "institutional-design",
+        "ai-human-collaboration",
+    ]
+)
 
 
 @dataclass

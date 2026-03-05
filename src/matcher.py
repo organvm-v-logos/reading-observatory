@@ -85,11 +85,13 @@ def score_items(
     for item in items:
         result = score_item(item, vocabulary, collection_tags)
         if result["score"] >= min_score:
-            scored.append({
-                **item,
-                "relevance_score": result["score"],
-                "matched_terms": result["matched_terms"],
-                "matched_collections": result["matched_collections"],
-            })
+            scored.append(
+                {
+                    **item,
+                    "relevance_score": result["score"],
+                    "matched_terms": result["matched_terms"],
+                    "matched_collections": result["matched_collections"],
+                }
+            )
     scored.sort(key=lambda x: x["relevance_score"], reverse=True)
     return scored

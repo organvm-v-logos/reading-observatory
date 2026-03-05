@@ -161,9 +161,7 @@ def aggregate(config: ObservatoryConfig, dry_run: bool = False) -> dict:
     scored = score_items(new_items, vocabulary, collection_tags, scoring.min_score)
 
     # 8. Archive expired items
-    archived_count = archive_expired(
-        paths.surfaced_path, paths.archive_dir, scoring.expiry_days
-    )
+    archived_count = archive_expired(paths.surfaced_path, paths.archive_dir, scoring.expiry_days)
 
     # 9. Load existing surfaced items and merge
     surfaced_path = Path(paths.surfaced_path)
@@ -182,7 +180,7 @@ def aggregate(config: ObservatoryConfig, dry_run: bool = False) -> dict:
 
     # Merge and cap at max_surfaced
     merged = existing_surfaced + scored
-    merged = merged[:scoring.max_surfaced]
+    merged = merged[: scoring.max_surfaced]
 
     # 10. Write outputs
     surfaced_path.parent.mkdir(parents=True, exist_ok=True)
@@ -213,17 +211,12 @@ def main():
         description="Run the reading-observatory feed aggregation pipeline"
     )
     parser.add_argument(
-        "--dry-run", action="store_true",
-        help="Load config and vocabularies without fetching feeds"
+        "--dry-run", action="store_true", help="Load config and vocabularies without fetching feeds"
     )
     parser.add_argument(
-        "--essays-index", default=None,
-        help="Path to essays-index.json (overrides default)"
+        "--essays-index", default=None, help="Path to essays-index.json (overrides default)"
     )
-    parser.add_argument(
-        "--config", default=None,
-        help="Path to scoring.yaml (overrides default)"
-    )
+    parser.add_argument("--config", default=None, help="Path to scoring.yaml (overrides default)")
     args = parser.parse_args()
 
     if args.config:

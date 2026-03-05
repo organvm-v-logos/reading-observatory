@@ -57,8 +57,18 @@ class TestScoreItem:
         assert result["matched_terms"] == []
 
     def test_collection_boost(self):
-        vocab = {"systems", "thinking", "governance", "cybernetics", "feedback",
-                 "emergence", "complexity", "autopoiesis", "design", "architecture"}
+        vocab = {
+            "systems",
+            "thinking",
+            "governance",
+            "cybernetics",
+            "feedback",
+            "emergence",
+            "complexity",
+            "autopoiesis",
+            "design",
+            "architecture",
+        }
         coll_tags = {"systems-thinking": {"systems", "thinking"}}
         item = {
             "title": "Systems Thinking Article",

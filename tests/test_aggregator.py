@@ -10,10 +10,28 @@ from src.aggregator import (
     aggregate,
     archive_expired,
     load_essay_tags,
+    main,
 )
 from src.config import ObservatoryConfig, PathsConfig, ScoringConfig
 
 FIXTURES = Path(__file__).parent / "fixtures"
+
+
+class TestAggregatorMain:
+    @patch("src.aggregator.aggregate")
+    @patch("sys.exit")
+    def test_main_runs(self, mock_exit, mock_agg):
+        mock_agg.return_value = {
+            "dry_run": False,
+            "items_fetched": 10,
+            "items_new": 8,
+            "items_scored": 5,
+            "items_surfaced": 2,
+            "items_archived": 0,
+        }
+        with patch("sys.argv", ["prog"]):
+            main()
+        mock_exit.assert_called_with(0)
 
 
 class TestLoadEssayTags:
@@ -105,7 +123,7 @@ class TestAggregate:
             '<?xml version="1.0"?><opml version="2.0"><head/><body>'
             '<outline text="test"><outline type="rss" title="Feed" '
             'xmlUrl="https://example.com/feed.xml" htmlUrl="https://example.com/"/>'
-            '</outline></body></opml>'
+            "</outline></body></opml>"
         )
 
         config = ObservatoryConfig(
@@ -150,7 +168,7 @@ class TestAggregate:
             '<outline text="systems-thinking">'
             '<outline type="rss" title="Feed" '
             'xmlUrl="https://example.com/feed.xml" htmlUrl="https://example.com/"/>'
-            '</outline></body></opml>'
+            "</outline></body></opml>"
         )
 
         mock_fetch.return_value = {
@@ -202,9 +220,7 @@ class TestAggregate:
         (feeds_dir / "archive").mkdir()
 
         opml = tmp_path / "subscriptions.opml"
-        opml.write_text(
-            '<?xml version="1.0"?><opml version="2.0"><head/><body></body></opml>'
-        )
+        opml.write_text('<?xml version="1.0"?><opml version="2.0"><head/><body></body></opml>')
 
         mock_fetch.return_value = {}
 
