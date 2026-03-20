@@ -1,0 +1,23 @@
+schema_version: '1.0'
+repo: reading-observatory
+organ: V
+display_name: "Reading Observatory — RSS feed aggregation, curated reading lists, bibliography validation"
+
+delivery:
+- platform: python_library
+  status: in_progress
+  priority: high
+  notes: "Weekly RSS aggregation, bibliography validation, reading curation"
+  next_action: "Complete feed aggregation and curation pipeline"
+
+content:
+- platform: docs_site
+  status: not_started
+  priority: medium
+  notes: "Feed source configuration, curation methodology, list format"
+  next_action: "Document feed sources and curation workflow"
+- platform: rss_feed
+  status: planned
+  priority: high
+  notes: "Curated reading lists as RSS feed"
+  next_action: "Implement curated list RSS output"
